@@ -12,10 +12,11 @@ static const char col_gray2[]       = "#504945";
 static const char col_gray3[]       = "#bdae93";
 static const char col_gray4[]       = "#ebdbb2";
 static const char col_cyan[]        = "#cc241d";
+static const char col_brdr[]        = "#bdae93";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-    [SchemeSel]  = { col_gray4, col_gray2,  col_gray1  }
+    [SchemeSel]  = { col_gray4, col_gray2,  col_brdr  }
 };
 
 /* tagging */
@@ -29,8 +30,8 @@ static const Rule rules[] = {
  	/* class               instance    title       tags mask     iscentered   isfloating   monitor */
  	{ "Gimp",              NULL,       NULL,       0,            0,           1,           -1 },
  	{ "Firefox",           NULL,       NULL,       0,            0,           0,           -1 },
- 	{ "Pcmanfm",           NULL,       NULL,       1 << 4,       0,           0,           -1 },
- 	{ "transmission-gtk",  NULL,       NULL,       1 << 4,       0,           0,           -1 },
+ 	{ "Pcmanfm",           NULL,       NULL,       1 << 4,       1,           1,           -1 },
+ 	{ "transmission-gtk",  NULL,       NULL,       1 << 4,       1,           1,           -1 },
 };
 
 /* layout(s) */
@@ -61,13 +62,14 @@ static const Layout layouts[] = {
 
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *termcmd[]  = { "alacritty", "-e", "tmux", "-u", NULL };
 static const char *webb[] = { "chromium", NULL, };
 static const char *file[] = {"alacritty", "-e", "ranger", NULL };
 static const char *flamecmd[] = {"flameshot", "gui", NULL };
 static const char *calccmd[] = { "speedcrunch", NULL};
 static const char *wificmd[] = { "networkmanager_dmenu", NULL};
 static const char *passcmd[] = { "keepassxc", NULL};
+static const char *lockscreen[] = { "betterlockscreen", "-l", "dim", NULL };
 
 #include "movestack.c"
 static const Key keys[] = {
@@ -80,6 +82,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = flamecmd } },
     { MODKEY,                       XK_x,      spawn,          {.v = passcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockscreen } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
